@@ -1,14 +1,28 @@
 services:
   # SQL Server for Windows/Linux
-  mssql-win:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sql-server-windows
-    restart: always
+  mssql-serverr:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: mssql-serverr
+    hostname: mssql-serverr
+    platform: linux/amd64
+    user: '10001'
     ports:
       - '1433:1433'
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=P@ssw0rd1234
+      - MSSQL_SA_PASSWORD=YourStrong@Password123
+      - MSSQL_PID=Developer
+      - MSSQL_MEMORY_LIMIT_MB=2048
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_PTRACE
+      - SYS_NICE
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+    restart: always
     volumes:
       - ./data/mssql:/var/opt/mssql
 
