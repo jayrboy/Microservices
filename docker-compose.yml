@@ -1,0 +1,93 @@
+services:
+  # SQL Server for Windows/Linux
+  mssql-win:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server-windows
+    restart: always
+    ports:
+      - '1433:1433'
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@ssw0rd1234
+    volumes:
+      - ./data/mssql:/var/opt/mssql
+
+  # mssql-mac:
+  #   image: mcr.microsoft.com/azure-sql-edge:latest
+  #   container_name: sql-edge-macos
+  #   ports:
+  #     - '1434:1433'
+  #   environment:
+  #     - ACCEPT_EULA=1
+  #     - MSSQL_SA_PASSWORD=P@ssw0rd1234
+  #     - MSSQL_PID=Developer
+  #   volumes:
+  #     - ./data/azuresql:/var/opt/mssql
+
+  # PostgreSQL
+  # postgres:
+  #   image: postgres:14
+  #   container_name: postgres-local
+  #   restart: always
+  #   shm_size: 128mb
+  #   ports:
+  #     - '5432:5432'
+  #   environment:
+  #     - POSTGRES_USER=admin
+  #     - POSTGRES_PASSWORD=P@ssw0rd1234
+  #     - POSTGRES_DB=mydatabase
+  #   volumes:
+  #     - ./data/postgres:/var/lib/postgresql/data
+
+  # Cloud Beaver (PostgreSQL GUI)
+  # cloudbeaver:
+  #   image: dbeaver/cloudbeaver:latest
+  #   container_name: cloudbeaver
+  #   ports:
+  #     - '8978:8978'
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - ./data/cloudbeaver:/opt/cloudbeaver/workspace
+
+  # mongodb:
+  #   image: mongo
+  #   container_name: mongodb-local
+  #   restart: always
+  #   ports:
+  #     - '27017:27017'
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=root
+  #     - MONGO_INITDB_ROOT_PASSWORD=P@ssw0rd1234
+  #   volumes:
+  #     - ./data/mongo:/data/db
+
+  # Redis & Redis-Insight
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis-local
+  #   ports:
+  #     - '6379:6379'
+
+  # redis-insight:
+  #   image: redislabs/redisinsight:latest
+  #   container_name: redis-insight
+  #   ports:
+  #     - '5540:5540'
+  #   depends_on:
+  #     - redis
+  #   volumes:
+  #     - ./data/redisinsight:/data
+
+  # nginx:
+  #   image: 'jc21/nginx-proxy-manager:latest'
+  #   container_name: nginx-app
+  #   ports:
+  #     - '80:81'
+  #     - '81:80'
+  #     - '443:443'
+  #   volumes:
+  #     - ./data/nginx:/data
+  #     - ./data/letsencrypt:/etc/letsencrypt
+  #   networks:
+  #     - virtual-network
